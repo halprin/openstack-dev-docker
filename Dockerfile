@@ -1,37 +1,39 @@
 FROM ubuntu
 MAINTAINER halprin
 
-#update the repositories
-RUN apt-get update -q
+#update the repositories and install...
+RUN apt-get update && apt-get install -y \
 
 #install python
-RUN apt-get install python3.5 -qy
-RUN apt-get install python3.4 -qy
-RUN apt-get install python3-pip -qy
-RUN pip3 install --upgrade pip
-RUN apt-get install python -qy
-RUN apt-get install python-pip -qy
-RUN pip2 install --upgrade pip
+python3.5 \
+python3.4 \
+python3-pip \
+python \
+python-pip \
 
 #install git
-RUN apt-get install git -qy
-RUN apt-get install git-review -qy
-
-#install python libraries
-RUN pip3 install tox
-RUN pip3 install bindep
-RUN pip2 install tox
-RUN pip2 install bindep
+git \
+git-review \
 
 #install OpenStack required libraries
-RUN apt-get install libpq-dev -qy
-RUN apt-get install gettext -qy
-RUN apt-get install libffi6 -qy
-RUN apt-get install libffi-dev -qy
+libpq-dev \
+gettext \
+libffi6 \
+libffi-dev \
 
-#install nice-to-have stuff
-RUN apt-get install vim -qy
-RUN apt-get install man -qy
+#install nice-to-have stuff since this is an interactive container
+vim \
+man
+
+#update pip3 and install...
+RUN pip3 install --upgrade pip && pip3 install \
+tox \
+bindep
+
+#update pip2 and install...
+RUN pip2 install --upgrade pip && pip2 install \
+tox \
+bindep
 
 RUN mkdir /usr/local/src/openstack/
 
